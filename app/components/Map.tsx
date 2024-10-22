@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { createDatalayerButton } from '../mapComponents/mapControls';
-import landingZones from '../dataFiles/landingZones.json';
 import PlaneZones from '../dataFiles/PlaneZones.json';
 import MoCounties from '../dataFiles/MoCounties.json';
 import MoTornados from '../dataFiles/tornado_paths.json';
@@ -15,30 +14,30 @@ interface MapProps {
 }
 
 export let map: google.maps.Map;
-let markerGroupOne: google.maps.marker.AdvancedMarkerElement[] = [];
-let layers: google.maps.Data[] = [];
+const markerGroupOne: google.maps.marker.AdvancedMarkerElement[] = [];
+const layers: google.maps.Data[] = [];
 
-export function addMarker(lat: number, lon: number) {
+// export function addMarker(lat: number, lon: number) {
 
-  const pin = new google.maps.marker.PinElement({
-    scale: 1,
-    background: '#000FFF',
-    borderColor: '#000FFE',
-    glyphColor: 'white',
-  });
+//   const pin = new google.maps.marker.PinElement({
+//     scale: 1,
+//     background: '#000FFF',
+//     borderColor: '#000FFE',
+//     glyphColor: 'white',
+//   });
 
-  if (map) {
-    let marker = new google.maps.marker.AdvancedMarkerElement({
-      position: { lat, lng: lon }, 
-      map: map,
-      content: pin.element,
-      title: "Title text for the test marker",
-      gmpClickable: true,
-    });
-  } else {
-    console.error('Map instance not available');
-  }
-};
+//   if (map) {
+//     const marker = new google.maps.marker.AdvancedMarkerElement({
+//       position: { lat, lng: lon }, 
+//       map: map,
+//       content: pin.element,
+//       title: "Title text for the test marker",
+//       gmpClickable: true,
+//     });
+//   } else {
+//     console.error('Map instance not available');
+//   }
+// };
 
 export function toggleMarkerGroup() {
   if(markerGroupOne[0].map == map) {
@@ -77,7 +76,7 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
   useEffect(() => {
     async function initMap(): Promise<void> {
       //Api library imports
-      const { Map, InfoWindow } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+      const { InfoWindow } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
       const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
       //await google.maps.importLibrary("weather&sensor") as google.maps.MapsLibrary;
 
@@ -132,8 +131,8 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
        });
 
        // Click listener for each marker, and set up the info window.
-       marker.addListener('gmp-click', (event: google.maps.MapMouseEvent) => {
-         const latLng = event.latLng;
+       marker.addListener('gmp-click', (/*event: google.maps.MapMouseEvent*/) => {
+         //const latLng = event.latLng;
          infoWindow.close();
          infoWindow.setContent(marker.title);
          infoWindow.open(marker.map, marker);
@@ -150,7 +149,7 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
 
       //----------------------------------------------------------------------------------------------------------------------------
       // Data layer for the Tornado paths
-      let tornadoLayer = new google.maps.Data();
+      const tornadoLayer = new google.maps.Data();
       tornadoLayer.addGeoJson(MoTornados);
       tornadoLayer.setStyle({
         strokeColor: "#BD2682",
@@ -181,7 +180,7 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
       layers.push(tornadoLayer);
       //----------------------------------------------------------------------------------------------------------------------------
       // Data layer for the county zones
-      let countiesLayer = new google.maps.Data();
+      const countiesLayer = new google.maps.Data();
       countiesLayer.addGeoJson(MoCounties);
       countiesLayer.setStyle({
         fillOpacity: 0,
@@ -202,7 +201,7 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
       layers.push(countiesLayer);
       //----------------------------------------------------------------------------------------------------------------------------
       // Data layer for the Township zones
-      let townshipLayer = new google.maps.Data();
+      const townshipLayer = new google.maps.Data();
       townshipLayer.addGeoJson(townships);
       townshipLayer.setStyle({
         fillOpacity: 0,
@@ -215,7 +214,7 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
       layers.push(townshipLayer);
       //----------------------------------------------------------------------------------------------------------------------------
       // Data layer for the drinking water districts
-      let drinkingLayer = new google.maps.Data();
+      const drinkingLayer = new google.maps.Data();
       drinkingLayer.addGeoJson(drinkingDistricts);
       drinkingLayer.setStyle({
         fillOpacity: 0,
@@ -238,7 +237,7 @@ export const Map: React.FC<MapProps> = ({ center, zoom, mapId }) => {
       layers.push(drinkingLayer);
       //----------------------------------------------------------------------------------------------------------------------------
       // Data layer for the primary care facilities
-      let primaryCareLayer = new google.maps.Data();
+      const primaryCareLayer = new google.maps.Data();
       primaryCareLayer.addGeoJson(primaryCare);
       primaryCareLayer.addListener('click', (event: google.maps.Data.MouseEvent) => {
         const contentString = `

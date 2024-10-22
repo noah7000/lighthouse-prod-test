@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 // Function to filter county polygons for a given state
 function filterStateCounties(inputFilePath, outputFilePath, targetState) {

@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 // Load the GeoJSON file
 const inputFile = 'MO_Long_Term_Care_Facilities.json';
